@@ -6,6 +6,6 @@ class HospitalRoom {
   }
 
   void displayHR() {
-    image(hospitalRoom, 0, 0);
+    image(hospitalRoom, 0, 0); //draws the hospital room background
   }
 }
