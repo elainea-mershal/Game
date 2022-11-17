@@ -14,6 +14,7 @@ void setup() {
 
 
 void draw() {
+  println(w.walterX, w.walterY);
   hr.displayHR(); //displays the hospital room
   w.displayWalter(); //displays Walter
   w.hrBoundaries(); //sets movement boundaries for Walter in the hospital room

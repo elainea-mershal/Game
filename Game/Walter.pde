@@ -120,8 +120,8 @@ class Walter {
     if (walterY>hrBoundaryD) //if Walter is outside of the bottom hospital room boundary
       walterY-=walterSpeed; //Walter cannot move downwards
 
-    //if (walterY==bedBoundaryY&&walterX>bedBoundaryX) //if Walter is at the foot of the bed
-    //walterY+=walterSpeed; //Walter cannot move upwards
+    if (walterY>bedBoundaryY && walterY<bedBoundaryY+5 && walterX>bedBoundaryX) //if Walter is at the foot of the bed
+      walterY+=walterSpeed; //Walter cannot move upwards
   }
 
   void walterMove() {
