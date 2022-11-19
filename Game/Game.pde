@@ -1,31 +1,33 @@
 import processing.sound.*; //allows sound to be imported into Processing
-SoundFile hrNoise; //background noise for the hospital room
+SoundFile brownNoise; //background noise for the hospital room
 
 HospitalRoom hr; //constructs 1 object from the class HospitalRoom with hr parameters
 Walter w; //contstructs 1 object from the Walter class with w parameters
 
 void setup() {
-  fullScreen(); //sets the rin window to fullscreen
+  fullScreen(); //sets the run window to fullscreen
+  brownNoise=new SoundFile(this, "brownNoise.wav");
 
   hr=new HospitalRoom(); //initializes the class HospitalRoom
   w=new Walter(); //initializes the class Walter
-  hrNoise=new SoundFile(this, "hrNoise.wav");
+
+  hr.brownNoise(); //plays brown noise
 }
 
 
 void draw() {
-  println(w.walterX, w.walterY);
-  hr.displayHR(); //displays the hospital room
-  w.displayWalter(); //displays Walter
-  w.hrBoundaries(); //sets movement boundaries for Walter in the hospital room
-  w.walterMove(); //allows Walter to move
-  hr.brownNoise(); //plays sound
+  hr.displayHR();
+  hr.boundaries();
+  hr.diary();
+  w.displayWalter(); 
+  hr.bedBoundaries();
+  w.walterMove(); 
 }
 
 void keyPressed() {
-  w.walterKeyPressed(); //moves Walter with wasd keys
+  w.walterKeyPressed(); 
 }
 
 void keyReleased() {
-  w.walterKeyReleased(); //allows Walter to move diagonally
+  w.walterKeyReleased();
 }

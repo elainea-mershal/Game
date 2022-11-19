@@ -1,17 +1,63 @@
-class HospitalRoom {
+class HospitalRoom { //<>//
+  int boundaryL=587; //left hospital room boundary for Walter
+  int hrBoundaryR=1271; //right hospital room boundary for Walter
+  int boundaryU=100; //up hospital room boundary for Walter
+  int boundaryD=720; //down hospital room boundary for Walter
+
+  int bedBoundaryLX=1150; //horizontal lower bed boundary for Walter
+  int bedBoundaryLY=283; //vertical lower bed boundary for Walter
+  int bedBoundaryUX=1145; //horizontal upper bed boundary for Walter
+  int bedBoundaryUY=220; //vertical upper bed boundary
+
+  int diaryW=40; //width of the diary
+  int diaryX=947; //x-coordinate of the diary
+  int diaryY=519; //y-coordinate of the diary
+
   PImage hospitalRoom; //image of the hospital room
+  PImage blanket; //image of the bed blanket
 
   HospitalRoom() {
     hospitalRoom=loadImage("hospitalRoom.png");
+    blanket=loadImage("blanket.png");
   }
 
-  void displayHR() {
+  void displayHR() { //displays the hospital room
     image(hospitalRoom, 0, 0); //draws the hospital room background
   }
+  
+  void brownNoise () { //brown noise to play in hospital room
+    brownNoise.play(); //plays the noise for the hospital room
+    brownNoise.loop(); //when the hospital room noise ends, it starts playing again
+    brownNoise.amp(0.25); //lowers the volume of the hospital room noise to a quarter of its volume
+  }
 
-  void brownNoise () {
-    hrNoise.play(); //plays the noise for the hospital room
-    hrNoise.loop(); //when the hospital room noise ends, it starts playing again
-    hrNoise.amp(0.25); //lowers the volume of the hospital room noise to a quarter of its volume
+  void boundaries() { //sets movement boundaries for Walter in the hospital room
+    if (w.walterX<boundaryL) //if Walter is outside of the left hospital room boundary
+      w.walterX+=w.wSpeed; //Walter cannot move to the left
+    if (w.walterX>hrBoundaryR) //if Walter is outside of the right hospital room boundary
+      w.walterX-=w.wSpeed; //Walter cannot move to the right
+    if (w.walterY<boundaryU) //if walter is outside of the top hospital room boundary
+      w.walterY+=w.wSpeed; //Walter cannot move upwards
+    if (w.walterY>boundaryD) //if Walter is outside of the bottom hospital room boundary
+      w.walterY-=w.wSpeed; //Walter cannot move downwards
+  }
+
+  void bedBoundaries() { //sets movement boundaries for Walter around the bed
+    if (w.walterY>bedBoundaryLY && w.walterY<bedBoundaryLY+5 && w.walterX>bedBoundaryLX) //if Walter is at the foot of the bed
+      w.walterY+=w.wSpeed; //Walter cannot move upwards
+
+    if (w.walterY<bedBoundaryUY && w.walterX>bedBoundaryLX) //if Walter is above the bed
+      w.walterX-=w.wSpeed; //Walter cannot move to the right
+
+    if (w.walterY<bedBoundaryLY && w.walterY>bedBoundaryUY && w.walterX>bedBoundaryLX) { //if Walter is in the bed
+      image(blanket, 0, 0); //Walter is covered by the blanket
+      if (key!='a') //if 'a' is not being pressed
+        w.sleep=true; //Walter is sleeping
+      else
+        w.sleep=false; //Walter is not sleeping
+    }
+  }
+
+  void diary() {
   }
 }
