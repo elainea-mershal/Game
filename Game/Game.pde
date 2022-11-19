@@ -14,7 +14,6 @@ void setup() {
   hr.brownNoise(); //plays brown noise
 }
 
-
 void draw() {
   hr.displayHR();
   hr.boundaries();

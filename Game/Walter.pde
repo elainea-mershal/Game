@@ -27,7 +27,7 @@ class Walter {
 
   int wasdKey; //stores the last wasd key pressed
 
-  float aSpeedI=0.04; //speed of Walter's idle animations
+  float aSpeedI=0.03; //speed of Walter's idle animations
   float aSpeedW=0.07; //speed of Walter's walking animations
   float aCounter; //counter for Walter's walking animations
 

@@ -28,7 +28,7 @@ class HospitalRoom { //<>//
   void brownNoise () { //brown noise to play in hospital room
     brownNoise.play(); //plays the noise for the hospital room
     brownNoise.loop(); //when the hospital room noise ends, it starts playing again
-    brownNoise.amp(0.25); //lowers the volume of the hospital room noise to a quarter of its volume
+    brownNoise.amp(0.2); //lowers the volume of the hospital room noise to a quarter of its volume
   }
 
   void boundaries() { //sets movement boundaries for Walter in the hospital room
