@@ -1,12 +1,16 @@
 import processing.sound.*; //allows sound to be imported into Processing
 SoundFile brownNoise; //background noise for the hospital room
 
+import gifAnimation.*;
+Gif doorText;
+
 HospitalRoom hr; //constructs 1 object from the class HospitalRoom with hr parameters
 Walter w; //contstructs 1 object from the Walter class with w parameters
 
 void setup() {
   fullScreen(); //sets the run window to fullscreen
   brownNoise=new SoundFile(this, "brownNoise.wav");
+  doorText=new Gif(this, "doorText.gif");
 
   hr=new HospitalRoom(); //initializes the class HospitalRoom
   w=new Walter(); //initializes the class Walter
@@ -17,14 +21,14 @@ void setup() {
 void draw() {
   hr.displayHR();
   hr.boundaries();
-  hr.diary();
-  w.displayWalter(); 
+  hr.doorInteraction();
+  w.displayWalter();
   hr.bedBoundaries();
-  w.walterMove(); 
+  w.walterMove();
 }
 
 void keyPressed() {
-  w.walterKeyPressed(); 
+  w.walterKeyPressed();
 }
 
 void keyReleased() {

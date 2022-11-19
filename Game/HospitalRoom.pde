@@ -9,6 +9,10 @@ class HospitalRoom { //<>//
   int bedBoundaryUX=1145; //horizontal upper bed boundary for Walter
   int bedBoundaryUY=220; //vertical upper bed boundary
 
+  int doorW=80; //width of the door
+  int doorX=671; //x-coordinate for the door
+  int doorY=245; //y-coordinate for the door
+
   int diaryW=40; //width of the diary
   int diaryX=947; //x-coordinate of the diary
   int diaryY=519; //y-coordinate of the diary
@@ -24,7 +28,7 @@ class HospitalRoom { //<>//
   void displayHR() { //displays the hospital room
     image(hospitalRoom, 0, 0); //draws the hospital room background
   }
-  
+
   void brownNoise () { //brown noise to play in hospital room
     brownNoise.play(); //plays the noise for the hospital room
     brownNoise.loop(); //when the hospital room noise ends, it starts playing again
@@ -58,6 +62,10 @@ class HospitalRoom { //<>//
     }
   }
 
-  void diary() {
+  void doorInteraction() {
+    if (w.walterY<=doorY && w.walterX>=doorX && w.walterX<=doorX+doorW && key=='e') {
+      doorText.play();
+      image(doorText,360,800);
+    }
   }
 }

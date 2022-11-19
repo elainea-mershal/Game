@@ -50,6 +50,9 @@ class Walter {
     walterB=loadImage("walterB.png");
 
     walterSprites(); //initializes Walter's sprite animations
+    
+    walterX=sleepX;
+    walterY=sleepY;
   }
 
   void walterSprites() {
