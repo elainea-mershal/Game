@@ -1,8 +1,8 @@
-class HospitalRoom { //<>//
+class HospitalRoom { //<>// //<>//
   int boundaryL=587; //left hospital room boundary for Walter
-  int hrBoundaryR=1271; //right hospital room boundary for Walter
-  int boundaryU=100; //up hospital room boundary for Walter
-  int boundaryD=720; //down hospital room boundary for Walter
+  int hrBoundaryR=1275; //right hospital room boundary for Walter
+  int boundaryU=95; //up hospital room boundary for Walter
+  int boundaryD=725; //down hospital room boundary for Walter
 
   int bedBoundaryLX=1150; //horizontal lower bed boundary for Walter
   int bedBoundaryLY=283; //vertical lower bed boundary for Walter
@@ -12,6 +12,8 @@ class HospitalRoom { //<>//
   int doorW=80; //width of the door
   int doorX=671; //x-coordinate for the door
   int doorY=245; //y-coordinate for the door
+  int dTextCounter;
+  int daTextCounter;
 
   int diaryW=40; //width of the diary
   int diaryX=947; //x-coordinate of the diary
@@ -19,6 +21,8 @@ class HospitalRoom { //<>//
 
   PImage hospitalRoom; //image of the hospital room
   PImage blanket; //image of the bed blanket
+
+  boolean displayDText;
 
   HospitalRoom() {
     hospitalRoom=loadImage("hospitalRoom.png");
@@ -63,9 +67,45 @@ class HospitalRoom { //<>//
   }
 
   void doorInteraction() {
-    if (w.walterY<=doorY && w.walterX>=doorX && w.walterX<=doorX+doorW && key=='e') {
-      doorText.play();
-      image(doorText,360,800);
+    if (displayDText) {
+      if (dTextCounter==1) {
+        doorText.play();
+        noMove=true;
+        image(doorText, 360, 800);
+        dTextCounter++;
+      } else if (dTextCounter==2) {
+        image(doorText, 360, 800);
+        noMove=true;
+      } else if (dTextCounter==3) {
+        noMove=false;
+        displayDText=false;
+        dTextCounter=0;
+      }
+      if (daTextCounter==7) {
+        doorAText.play();
+        noMove=true;
+        image(doorAText, 360, 800);
+        dTextCounter=0;
+        daTextCounter++;
+      } else if (daTextCounter==8) {
+        image(doorAText, 360, 800);
+        noMove=true;
+        dTextCounter=0;
+      } else if (daTextCounter==9) {
+        noMove=false;
+        displayDText=false;
+        dTextCounter=0;
+      }
+    }
+  }
+
+  void hrKeyPressed() {
+    if (key=='e') {
+      if (w.walterY<=doorY && w.walterX>=doorX && w.walterX<=doorX+doorW) {
+        displayDText=true;
+        dTextCounter++;
+        daTextCounter++;
+      }
     }
   }
 }

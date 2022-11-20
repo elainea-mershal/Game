@@ -3,14 +3,18 @@ SoundFile brownNoise; //background noise for the hospital room
 
 import gifAnimation.*;
 Gif doorText;
+Gif doorAText;
 
 HospitalRoom hr; //constructs 1 object from the class HospitalRoom with hr parameters
 Walter w; //contstructs 1 object from the Walter class with w parameters
+
+boolean noMove;
 
 void setup() {
   fullScreen(); //sets the run window to fullscreen
   brownNoise=new SoundFile(this, "brownNoise.wav");
   doorText=new Gif(this, "doorText.gif");
+  doorAText=new Gif(this, "doorAText.gif");
 
   hr=new HospitalRoom(); //initializes the class HospitalRoom
   w=new Walter(); //initializes the class Walter
@@ -19,16 +23,20 @@ void setup() {
 }
 
 void draw() {
+  println(hr.daTextCounter);
   hr.displayHR();
   hr.boundaries();
-  hr.doorInteraction();
   w.displayWalter();
+  hr.doorInteraction();
   hr.bedBoundaries();
   w.walterMove();
 }
 
 void keyPressed() {
-  w.walterKeyPressed();
+  if (noMove==false)
+    w.walterKeyPressed();
+
+  hr.hrKeyPressed();
 }
 
 void keyReleased() {

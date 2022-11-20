@@ -28,7 +28,7 @@ class Walter {
   int wasdKey; //stores the last wasd key pressed
 
   float aSpeedI=0.03; //speed of Walter's idle animations
-  float aSpeedW=0.07; //speed of Walter's walking animations
+  float aSpeedW=0.08; //speed of Walter's walking animations
   float aCounter; //counter for Walter's walking animations
 
   boolean startGame; //boolean to determine if the game has started
@@ -96,16 +96,16 @@ class Walter {
     } else if (wasdKey==4&&idle==true) { //if 'd' was the last key pressed and Walter is idle
       aCounter+=aSpeedI; //sets the speed for Walter's right idle animation
       image(rSprites[indexI], walterX, walterY); //display black & white Walter facing right animation
-    } else if (wUp==true && idle==false) { //if Walter is moving upwards and is not idle
+    } else if (wPressed==true && idle==false) { //if Walter is moving upwards and is not idle
       aCounter+=aSpeedW; //sets the speed for Walter's downward walking animation
       image(spritesB[indexW], walterX, walterY); //displays Walter's walking animation moving upwards
-    } else if (wLeft==true && idle==false) { //if Walter is moving left and is not idle
+    } else if (aPressed==true && idle==false) { //if Walter is moving left and is not idle
       aCounter+=aSpeedW; //sets the speed for Walter's left walking animation
       image(spritesL[indexW], walterX, walterY); //displays Walter's walking animation moving left
-    } else if (wRight==true&&idle==false) { //if Walter is moving right and is not idle
+    } else if (dPressed==true&&idle==false) { //if Walter is moving right and is not idle
       aCounter+=aSpeedW; //sets the speed for Walter's right walking animation
       image(spritesR[indexW], walterX, walterY); //displays Walter's walking animation moving right
-    } else if (wDown==true && idle==false) { //if Walter is moving down and is not idle
+    } else if (sPressed==true && idle==false) { //if Walter is moving down and is not idle
       aCounter+=aSpeedW; //sets the speed for Walter's downward walking animation
       image(spritesF[indexW], walterX, walterY); //displays Walter's walking animation moving downwards
     }
@@ -123,8 +123,8 @@ class Walter {
   }
   
   void walterKeyPressed() { //moves Walter with wasd keys
+  startGame=true;
     if (key=='w') { //if 'w' is being pressed
-      startGame=true; //the game has started
       wPressed=true; //'w' is being pressed
       idle=false; //Walter is not idle
       wUp=true; //Walter is facing upwards
@@ -133,7 +133,6 @@ class Walter {
       wDown=false; //Walter is not facing downwards
       wasdKey=1; //wasd key is 1, storing 'w' as the last key pressed
     } else if (key=='a') { //if 'a' is being pressed
-      startGame=true; //the game has started
       aPressed=true; //'a' is being pressed
       idle=false; //Walter is not idle
       wUp=false; //Walter is not facing upwards
@@ -142,7 +141,6 @@ class Walter {
       wDown=false;  //Walter is not facing downwards
       wasdKey=2; //wasd key is 2, storeing 'a' as the last key pressed
     } else if (key=='s') { //if 's' is being pressed
-      startGame=true; //the game has started
       sPressed=true; //'s' is being pressed
       idle=false; //Walter is not idle
       wUp=false; //Walter is not facing upwards
@@ -151,7 +149,6 @@ class Walter {
       wDown=true; //Walter is facing downwards
       wasdKey=3; //wasd key is 3, storing 's' as the last key pressed
     } else if (key=='d') { //if 'd' is being pressed
-      startGame=true; //the game has started
       dPressed=true; //'d' is being pressed
       idle=false; //Walter is not idle
       wUp=false; //Walter is not facing upwards
