@@ -26,6 +26,8 @@ class HospitalRoom { //<>// //<>//
 
   PImage hospitalRoom; //image of the hospital room
   PImage blanket; //image of the bed blanket
+  PImage mask;
+  int transparency;
 
   PImage[]yes = new PImage[3];
   PImage[]no=new PImage[3];
@@ -39,6 +41,7 @@ class HospitalRoom { //<>// //<>//
   HospitalRoom() {
     hospitalRoom=loadImage("hospitalRoom.png");
     blanket=loadImage("blanket.png");
+    mask=loadImage("mask.png");
 
     for (int index=0; index<yes.length; index++) {
       yes[index]=loadImage(str(index)+"yes.png");
@@ -153,8 +156,11 @@ class HospitalRoom { //<>// //<>//
   
   void transition() {
     if(displayTransition) {
-    whiteFlash.play();
-    image(whiteFlash,0,0);
+       tint(255, transparency); 
+       image(mask, 0, 0, width, height);
+       transparency+=2;
+    //whiteFlash.play();
+   // image(whiteFlash,0,0);
     }
   }
 
