@@ -12,21 +12,38 @@ class HospitalRoom { //<>// //<>//
   int doorW=80; //width of the door
   int doorX=671; //x-coordinate for the door
   int doorY=245; //y-coordinate for the door
-  int dTextCounter;
+  int doorTextCounter;
   int daTextCounter;
+  int diaryTextCounter;
 
   int diaryW=40; //width of the diary
   int diaryX=947; //x-coordinate of the diary
   int diaryY=519; //y-coordinate of the diary
+  int dBoundaryL=895;
+  int dBoundaryR=965;
+  int dBoundaryU=384;
+  int dBoundaryD=432;
 
   PImage hospitalRoom; //image of the hospital room
   PImage blanket; //image of the bed blanket
 
-  boolean displayDText;
+  PImage[]yes = new PImage[3];
+  PImage[]no=new PImage[3];
+
+  boolean displayDoorText;
+  boolean displayDiaryText;
+  boolean displayYes;
+  boolean displayNo;
+  boolean displayTransition=false;
 
   HospitalRoom() {
     hospitalRoom=loadImage("hospitalRoom.png");
     blanket=loadImage("blanket.png");
+
+    for (int index=0; index<yes.length; index++) {
+      yes[index]=loadImage(str(index)+"yes.png");
+      no[index]=loadImage(str(index)+"no.png");
+    }
   }
 
   void displayHR() { //displays the hospital room
@@ -66,45 +83,104 @@ class HospitalRoom { //<>// //<>//
     }
   }
 
+  void diaryBoundaries() {
+    if (w.walterX>dBoundaryL && w.walterX<dBoundaryL+5 && w.walterY>dBoundaryU && w.walterY<dBoundaryD)
+      w.walterX-=w.wSpeed;
+    if (w.walterX<dBoundaryR && w.walterX>dBoundaryR-5 && w.walterY>dBoundaryU && w.walterY<dBoundaryD)
+      w.walterX+=w.wSpeed;
+    if (w.walterY>dBoundaryU && w.walterY<dBoundaryU+5 && w.walterX>dBoundaryL && w.walterX<dBoundaryR)
+      w.walterY-=w.wSpeed;
+    if (w.walterY<dBoundaryD && w.walterY>dBoundaryD-5 && w.walterX>dBoundaryL && w.walterX<dBoundaryR)
+      w.walterY+=w.wSpeed;
+  }
+
+  void diaryInteraction() {
+    if (displayDiaryText) {
+      if (displayYes)
+        image(yes[frameCount%20/10], 1310, 625);
+      else if (displayNo)
+        image(no[frameCount%20/10], 1310, 625);
+      else if (displayYes==false && displayNo==false)
+        displayYes=true;
+      if (diaryTextCounter==1) {
+        diaryText.play();
+        noMove=true;
+        image(diaryText, 360, 800);
+        diaryTextCounter++;
+      } else if (diaryTextCounter==2) {
+        image(diaryText, 360, 800);
+        noMove=true;
+      } else if (diaryTextCounter==3) {
+        noMove=false;
+        displayDiaryText=false;
+        diaryTextCounter=0;
+      }
+    }
+  }
+
   void doorInteraction() {
-    if (displayDText) {
-      if (dTextCounter==1) {
+    if (displayDoorText) {
+      if (doorTextCounter==1) {
         doorText.play();
         noMove=true;
         image(doorText, 360, 800);
-        dTextCounter++;
-      } else if (dTextCounter==2) {
+        doorTextCounter++;
+      } else if (doorTextCounter==2) {
         image(doorText, 360, 800);
         noMove=true;
-      } else if (dTextCounter==3) {
+      } else if (doorTextCounter==3) {
         noMove=false;
-        displayDText=false;
-        dTextCounter=0;
+        displayDoorText=false;
+        doorTextCounter=0;
       }
       if (daTextCounter==7) {
         doorAText.play();
         noMove=true;
         image(doorAText, 360, 800);
-        dTextCounter=0;
+        doorTextCounter=0;
         daTextCounter++;
       } else if (daTextCounter==8) {
         image(doorAText, 360, 800);
         noMove=true;
-        dTextCounter=0;
+        doorTextCounter=0;
       } else if (daTextCounter==9) {
         noMove=false;
-        displayDText=false;
-        dTextCounter=0;
+        displayDoorText=false;
+        doorTextCounter=0;
       }
+    }
+  }
+  
+  void transition() {
+    if(displayTransition) {
+    whiteFlash.play();
+    image(whiteFlash,0,0);
     }
   }
 
   void hrKeyPressed() {
     if (key=='e') {
       if (w.walterY<=doorY && w.walterX>=doorX && w.walterX<=doorX+doorW) {
-        displayDText=true;
-        dTextCounter++;
+        displayDoorText=true;
+        doorTextCounter++;
         daTextCounter++;
+      }
+      if (w.walterX>dBoundaryL && w.walterX<dBoundaryL+100 && w.walterY>dBoundaryU && w.walterY<dBoundaryD || w.walterX<dBoundaryR && w.walterX>dBoundaryR-100 && w.walterY>dBoundaryU && w.walterY<dBoundaryD || w.walterY>dBoundaryU && w.walterY<dBoundaryU+70 && w.walterX>dBoundaryL && w.walterX<dBoundaryR || w.walterY<dBoundaryD && w.walterY>dBoundaryD-70 && w.walterX>dBoundaryL && w.walterX<dBoundaryR) {
+        displayDiaryText=true;
+        if (diaryTextCounter<2 || displayNo)
+          diaryTextCounter++;
+          if(diaryTextCounter==2 && displayYes)
+          displayTransition=true;
+      }
+    }
+    if (displayDiaryText) {
+      if (key=='w') {
+        displayYes=true;
+        displayNo=false;
+      }
+      if (key=='s') {
+        displayYes=false;
+        displayNo=true;
       }
     }
   }

@@ -21,7 +21,6 @@ class Walter {
   int walterH=140; //Walter's height size
   int walterX, walterY; //x and y coordinates of Walter
   int wSpeed=4; //speed of Walter
-
   int sleepX=1215; //starting x position for Walter
   int sleepY=250; //starting y position for Walter
 
