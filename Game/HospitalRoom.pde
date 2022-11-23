@@ -28,6 +28,7 @@ class HospitalRoom { //<>// //<>//
   PImage blanket; //image of the bed blanket
   PImage mask;
   int transparency;
+  int transparencyChange=2;
 
   PImage[]yes = new PImage[3];
   PImage[]no=new PImage[3];
@@ -158,9 +159,14 @@ class HospitalRoom { //<>// //<>//
     if(displayTransition) {
        tint(255, transparency); 
        image(mask, 0, 0, width, height);
-       transparency+=2;
+       transparency+=transparencyChange;
     //whiteFlash.play();
    // image(whiteFlash,0,0);
+    }
+    if (transparency > 280) {
+       whichroom++;
+       transparencyChange=transparencyChange*-1;
+       transparency=279;
     }
   }
 

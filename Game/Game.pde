@@ -10,9 +10,11 @@ import processing.video.*;
 Movie whiteFlash;
 
 HospitalRoom hr; //constructs 1 object from the class HospitalRoom with hr parameters
+LivingRoom lr;
 Walter w; //contstructs 1 object from the Walter class with w parameters
 
 boolean noMove;
+int whichroom=0;
 
 void setup() {
   fullScreen(); //sets the run window to fullscreen
@@ -34,15 +36,26 @@ void movieEvent(Movie whiteFlash) {
 
 void draw() {
   println(hr.diaryTextCounter);
+  if (whichroom==0) {
   hr.displayHR();
   hr.boundaries();
   hr.diaryBoundaries();
   hr.diaryInteraction();
-  w.displayWalter();
   hr.doorInteraction();
+  w.displayWalter();
   hr.bedBoundaries();
+  }
+  if (whichroom==1) {
+  lr.displayLR();
+  lr.boundaries();
+  w.displayWalter();
+
+  }
   w.walterMove();
   hr.transition();
+  textSize(30);
+  fill(0);
+  text(hr.transparency, 20, 20);
 }
 
 void keyPressed() {
