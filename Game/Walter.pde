@@ -48,25 +48,32 @@ class Walter {
     walterR=loadImage("walterR.png");
     walterB=loadImage("walterB.png");
 
-    walterSprites(); //initializes Walter's sprite animations
-    
-    walterX=sleepX;
-    walterY=sleepY;
+    walterHR();
+
+    walterX=sleepX; //initial x-coordinate for Walter
+    walterY=sleepY; //initial y-coordinate for Walter
   }
 
-  void walterSprites() {
-    for (int index=0; index<rSprites.length; index++) {
+  void walterHR() { //initializes Walter's hospital room sprite animations
+    for (int index=0; index<rSprites.length; index++) { //index variable has an initial value of 0, must be less than the length of rSprites array, and increases by increments of 1
       fSprites[index]=fWalter.get(index*walterW, 0, walterW, walterH); //retrieves the separate images from Walter's forward idle sprite sheet
       lSprites[index]=lWalter.get(index*walterW, 0, walterW, walterH); //retrieves the separate images from Walter's left idle sprite sheet
       rSprites[index]=rWalter.get(index*walterW, 0, walterW, walterH); //retrieves the separate images from Walter's right idle sprite sheet
       bSprites[index]=bWalter.get(index*walterW, 0, walterW, walterH); //retrieves the separate images from Walter's back idle sprite sheet
     }
 
-    for (int index=0; index<spritesF.length; index++) { //index variable has an initial value of 0, must be less than the length of t array, and increases by increments of 1
+    for (int index=0; index<spritesF.length; index++) { //index variable has an initial value of 0, must be less than the length of spritesF array, and increases by increments of 1
       spritesF[index]=walterF.get(index*walterW, 0, walterW, walterH); //retrieves the separate images from Walter's forward walking sprite sheet
       spritesL[index]=walterL.get(index*walterW, 0, walterW, walterH); //retrieves the separate images from Walter's left walking sprite sheet
       spritesR[index]=walterR.get(index*walterW, 0, walterW, walterH); //retrieves the separate images from Walter's right walking sprite sheet
       spritesB[index]=walterB.get(index*walterW, 0, walterW, walterH); //retrieves the separate images from Walter's back walking sprite sheet
+    }
+  }
+
+  void walterScene1() { //initializes Walter's scene 1 sprite animations
+    fWalter=loadImage("fWalter1.png");
+    for (int index=0; index<rSprites.length; index++) { //index variable has an initial value of 0, must be less than the length of array, and increases by increments of 1
+      fSprites[index]=fWalter.get(index*walterW, 0, walterW, walterH); //retrieves the separate images from Walter's forward idle sprite sheet
     }
   }
 
@@ -120,16 +127,9 @@ class Walter {
     if (dPressed) //if 'd' is being pressed
       walterX+=wSpeed; //Walter moves to the right
   }
-  
-  void walterScene1() {
-    fWalter=loadImage("fWalter1.png");
-    for (int index=0; index<rSprites.length; index++) {
-    fSprites[index]=fWalter.get(index*walterW, 0, walterW, walterH); //retrieves the separate images from Walter's forward idle sprite sheet
-    }
-  }
-  
+
   void walterKeyPressed() { //moves Walter with wasd keys
-  startGame=true;
+    startGame=true;
     if (key=='w') { //if 'w' is being pressed
       wPressed=true; //'w' is being pressed
       idle=false; //Walter is not idle

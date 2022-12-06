@@ -1,11 +1,11 @@
 class LivingRoom {
-  PImage livingRoom;
+  PImage livingRoom; //image of the living room
 
   LivingRoom() {
     livingRoom = loadImage("theroom.png");
   }
 
-  void displayLR() {
-    image(livingRoom, 0, 0);
+  void displayLR() { //displays the living room
+    image(livingRoom, 0, 0); //draws the living room background
   }
 }
