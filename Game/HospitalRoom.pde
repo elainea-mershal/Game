@@ -14,7 +14,6 @@ class HospitalRoom { //<>// //<>//
   int doorY=245; //y-coordinate for the door
   int doorTextCounter;
   int daTextCounter;
-  int diaryTextCounter;
 
   int diaryW=40; //width of the diary
   int diaryX=947; //x-coordinate of the diary
@@ -23,26 +22,22 @@ class HospitalRoom { //<>// //<>//
   int dBoundaryR=965;
   int dBoundaryU=384;
   int dBoundaryD=432;
+  int diaryTextCounter;
 
   PImage hospitalRoom; //image of the hospital room
   PImage blanket; //image of the bed blanket
-  PImage mask;
-  int transparency;
-  int transparencyChange=2;
 
-  PImage[]yes = new PImage[3];
-  PImage[]no=new PImage[3];
+  PImage[]yes = new PImage[2];
+  PImage[]no=new PImage[2];
 
   boolean displayDoorText;
   boolean displayDiaryText;
   boolean displayYes;
   boolean displayNo;
-  boolean displayTransition=false;
 
   HospitalRoom() {
     hospitalRoom=loadImage("hospitalRoom.png");
     blanket=loadImage("blanket.png");
-    mask=loadImage("mask.png");
 
     for (int index=0; index<yes.length; index++) {
       yes[index]=loadImage(str(index)+"yes.png");
@@ -154,21 +149,6 @@ class HospitalRoom { //<>// //<>//
       }
     }
   }
-  
-  void transition() {
-    if(displayTransition) {
-       tint(255, transparency); 
-       image(mask, 0, 0, width, height);
-       transparency+=transparencyChange;
-    //whiteFlash.play();
-   // image(whiteFlash,0,0);
-    }
-    if (transparency > 280) {
-       whichroom++;
-       transparencyChange=transparencyChange*-1;
-       transparency=279;
-    }
-  }
 
   void hrKeyPressed() {
     if (key=='e') {
@@ -181,8 +161,8 @@ class HospitalRoom { //<>// //<>//
         displayDiaryText=true;
         if (diaryTextCounter<2 || displayNo)
           diaryTextCounter++;
-          if(diaryTextCounter==2 && displayYes)
-          displayTransition=true;
+        if (diaryTextCounter==2 && displayYes)
+          increaseTransparency=true;
       }
     }
     if (displayDiaryText) {

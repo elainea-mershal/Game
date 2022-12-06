@@ -121,6 +121,13 @@ class Walter {
       walterX+=wSpeed; //Walter moves to the right
   }
   
+  void walterScene1() {
+    fWalter=loadImage("fWalter1.png");
+    for (int index=0; index<rSprites.length; index++) {
+    fSprites[index]=fWalter.get(index*walterW, 0, walterW, walterH); //retrieves the separate images from Walter's forward idle sprite sheet
+    }
+  }
+  
   void walterKeyPressed() { //moves Walter with wasd keys
   startGame=true;
     if (key=='w') { //if 'w' is being pressed

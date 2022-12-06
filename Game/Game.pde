@@ -6,15 +6,20 @@ Gif doorText;
 Gif doorAText;
 Gif diaryText;
 
-import processing.video.*;
-Movie whiteFlash;
-
+Walter w; //contstructs 1 object from the Walter class with w parameters
 HospitalRoom hr; //constructs 1 object from the class HospitalRoom with hr parameters
 LivingRoom lr;
-Walter w; //contstructs 1 object from the Walter class with w parameters
+
+int roomCounter;
 
 boolean noMove;
-int whichroom=0;
+
+PImage whiteScreen;
+int transparency;
+int transparencyChange=4;
+int transparencyMax=280;
+boolean increaseTransparency;
+boolean decreaseTransparency;
 
 void setup() {
   fullScreen(); //sets the run window to fullscreen
@@ -22,40 +27,56 @@ void setup() {
   doorText=new Gif(this, "doorText.gif");
   doorAText=new Gif(this, "doorAText.gif");
   diaryText=new Gif(this, "diaryText.gif");
-  whiteFlash=new Movie(this,"whiteFlash.mp4");
+  whiteScreen=loadImage("whiteScreen.png");
 
-  hr=new HospitalRoom(); //initializes the class HospitalRoom
   w=new Walter(); //initializes the class Walter
+  hr=new HospitalRoom(); //initializes the class HospitalRoom
+  lr=new LivingRoom();
 
   hr.brownNoise(); //plays brown noise
 }
 
-void movieEvent(Movie whiteFlash) {
-  whiteFlash.read();
-}
-
 void draw() {
-  println(hr.diaryTextCounter);
-  if (whichroom==0) {
-  hr.displayHR();
-  hr.boundaries();
-  hr.diaryBoundaries();
-  hr.diaryInteraction();
-  hr.doorInteraction();
-  w.displayWalter();
-  hr.bedBoundaries();
+  println(noMove);
+  if (roomCounter==0) {
+    hr.displayHR();
+    hr.boundaries();
+    hr.bedBoundaries();
+    hr.doorInteraction();
+    hr.diaryBoundaries();
+    hr.diaryInteraction();
+    w.displayWalter();
+    hr.bedBoundaries();
   }
-  if (whichroom==1) {
-  lr.displayLR();
-  lr.boundaries();
-  w.displayWalter();
-
+  if (roomCounter==1) {
+    lr.displayLR();
+    w.walterScene1();
+    w.displayWalter();
   }
   w.walterMove();
-  hr.transition();
-  textSize(30);
-  fill(0);
-  text(hr.transparency, 20, 20);
+  roomTransition();
+}
+
+void roomTransition() {
+  if (increaseTransparency) {
+    tint(255, transparency);
+    image(whiteScreen, 0, 0, width, height);
+    transparency+=transparencyChange;
+  }
+  if (transparency > transparencyMax) {
+    decreaseTransparency=true;
+    roomCounter++;
+  }
+  if (decreaseTransparency) {
+    increaseTransparency=false;
+    tint(255, transparency);
+    image(whiteScreen, 0, 0, width, height);
+    transparency-=transparencyChange;
+    if (transparency==0) {
+      noTint();
+      noMove=false;
+    }
+  }
 }
 
 void keyPressed() {
