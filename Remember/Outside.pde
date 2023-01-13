@@ -7,7 +7,7 @@ class Outside {
   boolean goOut; //boolean to determine if Walter is going outside
 
   Outside() {
-    outside=loadImage("goOut.png");
+    outside=loadImage("outside.png");
 
     inDoorL=width*886/1920;
     inDoorR=width*970/1920;
