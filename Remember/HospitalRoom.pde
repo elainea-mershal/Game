@@ -16,7 +16,8 @@ class HospitalRoom {
   int doorX; //x-coordinate for the door
   int doorY; //y-coordinate for the door
   int doorCounter; //counter to display the door text
-  int aDoorCounter; //counter to display the angry door text
+  int aDoorDisplayCounter; //counter to display the angry door text
+  int aDoorCounter;
 
   int diaryW; //width of the diary
   int diaryX; //x-coordinate of the diary
@@ -49,9 +50,18 @@ class HospitalRoom {
   int textW; //width of the text boxes
   int textH; //height of the text boxes
 
+  PImage[]dText = new PImage[13];
+  PImage[]aDoorText = new PImage[18];
+
   HospitalRoom() {
     hospitalRoom=loadImage("hospitalRoom.png");
     blanket=loadImage("blanket.png");
+
+    for (int index=0; index<dText.length; index++)
+      dText[index]=loadImage(index+"dText.png");
+
+    for (int index=0; index<aDoorText.length; index++)
+      aDoorText[index]=loadImage(index+"aDoorText.png");
 
     boundaryL=width*587/1920;
     boundaryR=width*1275/1920;
@@ -169,53 +179,17 @@ class HospitalRoom {
     }
   }
 
-  void doorInteraction() { //allows Walter to interact with the door
-    if (displayDoorText) { //if the door text is to be displayed
-      if (doorCounter==1) { //if the door text counter is 1
-        doorText.play(); //play the door text gif
-        noMove=true; //Walter cannot move
-        image(doorText, textX, textY, textW, textH); //display the door text
-        doorCounter++; //increase the door text counter by 1
-      } else if (doorCounter==2) { //otherwise, if the door text counter is 2
-        image(doorText, textX, textY, textW, textH); //display the door text
-        noMove=true; //Walter cannot move
-      } else if (doorCounter==3) { //otherwise, if the door text counter is 3
-        noMove=false; //Walter can move
-        displayDoorText=false; //the door text is no longer displayed
-        doorCounter=0; //the door text counter is reset
-      }
-      if (aDoorCounter==7) { //if the angry door text counter is 7
-        doorAText.play(); //play the angry door text gif
-        noMove=true; //Walter cannot move
-        image(doorAText, textX, textY, textW, textH); //display the angry door text
-        doorCounter=0; //reset the door text counter
-        aDoorCounter++; //increase the angry door text counter by 1
-      } else if (aDoorCounter==8) { //otherwise, if the angry door text counter is 8
-        image(doorAText, textX, textY, textW, textH); //display the angry door text
-        noMove=true; //Walter cannot move
-        doorCounter=0; //reset the door text counter
-      } else if (aDoorCounter==9) { //otherwise, if the angry door text counter is 9
-        noMove=false; //Walter can move
-        displayDoorText=false; //the angry door text is no longer displayed
-        doorCounter=0; //reset the door text counter
-      }
-    }
-  }
-
-  void hrKeyPressed() { //allows interactions when certain keys are pressed
+  void diaryKeyPressed() { //triggers the diary interactions related to keys being pressed
     if (key=='e') { //if 'e' is pressed
-      if (w.walterY<=doorY && w.walterX>=doorX && w.walterX<=doorX+doorW) { //if Walter is near the door
-        displayDoorText=true; //the door text is to be displayed
-        doorCounter++; //the door text counter increases by 1
-        aDoorCounter++; //the angry door text counter increases by 1
-      }
       if (w.walterX>dBoundaryL && w.walterX<dBoundaryL+boundaryInteractionX && w.walterY>dBoundaryU && w.walterY<dBoundaryD || w.walterX<dBoundaryR && w.walterX>dBoundaryR-boundaryInteractionX && w.walterY>dBoundaryU && w.walterY<dBoundaryD || w.walterY>dBoundaryU && w.walterY<dBoundaryU+boundaryInteractionY && w.walterX>dBoundaryL && w.walterX<dBoundaryR || w.walterY<dBoundaryD && w.walterY>dBoundaryD-boundaryInteractionY && w.walterX>dBoundaryL && w.walterX<dBoundaryR) { //if Walter is near the diary
         displayDiaryText=true; //the diary text is to be displayed
+        noMove=true; //Walter cannot move
         if (diaryCounter<2 || displayNo) //if the diary text counter is less than 2 and the arrow pointing towards no is displayed
           diaryCounter++; //the diary text counter increases by 1
         if (diaryCounter==2 && displayYes) { //if the diary text counter is 2 and the arrow pointing towards yes is displayed
           increaseTransparency=true; //the transparency transition begins
           whiteTransition=true; //the white transparency transition begins
+          diaryCounter++; //the diary counter increases by 1
         }
       }
     }
@@ -227,6 +201,71 @@ class HospitalRoom {
       if (key=='s') { //if 's' is pressed
         displayYes=false; //the arrow points towards yes
         displayNo=true; //the arrow points towards no
+      }
+    }
+  }
+
+  void doorInteraction() { //allows Walter to interact with the door
+    if (displayDoorText) { //if the door text is to be displayed
+      noMove=true;
+      image(dText[doorCounter], textX, textY, textW, textH);
+      if (doorCounter<dText.length-2)
+        doorCounter++;
+      if (doorCounter==dText.length-1 || aDoorCounter==aDoorText.length-1) {
+        doorCounter=0;
+        displayDoorText=false;
+        noMove=false;
+        aDoorDisplayCounter++;
+      }
+      if (aDoorDisplayCounter==2) {
+        doorCounter=0;
+        image(aDoorText[aDoorCounter], textX, textY, textW, textH);
+        if (aDoorCounter<aDoorText.length-2)
+          aDoorCounter++;
+      }
+      delay(10);
+
+
+
+      /*if (doorCounter==1) { //if the door text counter is 1
+       doorText.play(); //play the door text gif
+       noMove=true; //Walter cannot move
+       image(doorText, textX, textY, textW, textH); //display the door text
+       doorCounter++; //increase the door text counter by 1
+       } else if (doorCounter==2) { //otherwise, if the door text counter is 2
+       image(doorText, textX, textY, textW, textH); //display the door text
+       noMove=true; //Walter cannot move
+       } else if (doorCounter==3) { //otherwise, if the door text counter is 3
+       noMove=false; //Walter can move
+       displayDoorText=false; //the door text is no longer displayed
+       doorCounter=0; //the door text counter is reset
+       }
+       if (aDoorCounter==7) { //if the angry door text counter is 7
+       doorAText.play(); //play the angry door text gif
+       noMove=true; //Walter cannot move
+       image(doorAText, textX, textY, textW, textH); //display the angry door text
+       doorCounter=0; //reset the door text counter
+       aDoorCounter++; //increase the angry door text counter by 1
+       } else if (aDoorCounter==8) { //otherwise, if the angry door text counter is 8
+       image(doorAText, textX, textY, textW, textH); //display the angry door text
+       noMove=true; //Walter cannot move
+       doorCounter=0; //reset the door text counter
+       } else if (aDoorCounter==9) { //otherwise, if the angry door text counter is 9
+       noMove=false; //Walter can move
+       displayDoorText=false; //the angry door text is no longer displayed
+       doorCounter=0; //reset the door text counter
+       } */
+    }
+  }
+
+  void doorKeyPressed() { //triggers the door interactions related to keys being pressed
+    if (key=='e') { //if 'e' is pressed
+      if (w.walterY<=doorY && w.walterX>=doorX && w.walterX<=doorX+doorW) { //if Walter is near the door
+        displayDoorText=true; //the door text is to be displayed
+        if (doorCounter<dText.length-1) //if the door counter is less than one less than the length of dText
+          doorCounter++; //the door text counter increases by 1
+        if (aDoorCounter<aDoorText.length-1) //if the angry door counter is less than one less than the length of aDoorText
+          aDoorCounter++; //the angry door text counter increases by 1
       }
     }
   }

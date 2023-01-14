@@ -300,21 +300,17 @@ class LivingRoom {
           image(w.walterSitL, 0, 0, width, height); //displays Walter sitting facing left
         else
           image(w.walterSitR, 0, 0, width, height); //displays Walter sitting facing right
-      }
+      } else
+        w.sit=false; //Walter is not sitting
     }
   }
 
   void leave() { //allows Walter to leave the living room
-    if (w.walterY>boundaryD) { //if Walter is below the bottom boundary of the living room
+    if (w.walterY>boundaryD || w.walterY<boundaryU) { //if Walter is below the bottom boundary or above the top boundary of the living room
       noMove=true; //Walter cannot move
       increaseTransparency=true; //a transition begins
       blackTransition=true; //the black transition begins
-    }
-
-    if (w.walterY<boundaryU) { //if Walter is above the top boundary of the living room
-      noMove=true; //Walter cannot move
-      increaseTransparency=true; //a transition begins
-      blackTransition=true; //the black transition begins
+      changeOutside=true;
     }
   }
 

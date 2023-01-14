@@ -2,7 +2,6 @@ import processing.sound.*; //allows sound to be imported into Processing
 SoundFile brownNoise; //background noise for the hospital room
 
 import gifAnimation.*; //allows gifs to be imported into Processing
-Gif doorText; //door text gif to display a typewriter effect
 Gif doorAText; //angry door text gif to display a typewriter effect
 Gif diaryText; //diary text gif to display a typewriter effect
 
@@ -32,12 +31,13 @@ boolean whiteTransition; //boolean to determine if the transition is white
 boolean blackTransition; //boolean to determine if the transition is black
 
 boolean sideRoom; //boolean to display side rooms
+boolean displayOutside;
+boolean changeOutside;
 
 
 void setup() {
   fullScreen(); //sets the run window to fullscreen
   brownNoise=new SoundFile(this, "brownNoise.wav");
-  doorText=new Gif(this, "doorText.gif");
   doorAText=new Gif(this, "doorAText.gif");
   diaryText=new Gif(this, "diaryText.gif");
   titleScreen=loadImage("titleScreen.png");
@@ -54,8 +54,9 @@ void setup() {
 }
 
 void draw() {
-  if (roomCounter==0)
-    image(titleScreen, 0, 0, width, height);
+  println(hr.doorCounter);
+  if (roomCounter==0) //if the room counter has not increased
+    image(titleScreen, 0, 0, width, height); //display the title screen
 
   if (sideRoom==false) {
     if (roomCounter==1) { //if the room counter is equal to 0
@@ -68,7 +69,7 @@ void draw() {
       w.displayWalter();
       hr.bedBoundaries();
     }
-    if (roomCounter==2) { //if the room counter is equal to 1
+    if (roomCounter==2) { //if the room counter is equal to 2
       lr.display();
       lr.boundaries();
       lr.fireBoundaries();
@@ -83,19 +84,19 @@ void draw() {
       lr.seatBoundaries();
       lr.leave();
       lr.come();
-      if (w.sit==false)
+      if (w.sit==false) //if Walter is not sitting
         w.displayWalter();
       lr.displayFurniture();
       lr.chairSit();
       changeCounter++;
     }
-    if (changeCounter==1) {
+    if (changeCounter==1) { //if the change Walter's appearance counter is equal to 1
       w.walterScene1();
       w.walterHR();
-      changeCounter++;
+      changeCounter++; //the counter to change Walter's appearance is increased by 1
     }
   }
-  if (sideRoom) {
+  if (displayOutside) { //if a side room is displayed
     o.display();
     o.boundaries();
     o.leave();
@@ -125,14 +126,13 @@ void roomTransition() { //allows transparency transitions between rooms
     if (whiteTransition) //if the transition is white
       roomCounter++; //increase the room counter
     if (blackTransition) { //if the transition is black
-      if (sideRoom==false) { //if Walter is not outside
-        sideRoom=true; //display the outside
-      } else if (sideRoom) { //if Walter is outside
-        sideRoom=false; //Walter is no longer outside
-        lr.goIn=true; //Walter is going inside
+      if (changeOutside) { //if Walter is not outside
+        displayOutside=true;
+        lr.goIn=true;
       }
     }
   }
+
   if (decreaseTransparency) { //if the transparency is to be decreased
     increaseTransparency=false; //the transparency stops increasing
     tint(255, transparency); //tints the room with transparency
@@ -158,17 +158,19 @@ void roomTransition() { //allows transparency transitions between rooms
   }
 }
 
-
 void keyPressed() {
   if (roomCounter==0 && key==ENTER) { //if the room counter is at 0 and 'ENTER' is pressed
     increaseTransparency=true; //the room transition begins
     whiteTransition=true; //the white room transition begins
   }
 
-  if (noMove==false) //if Walter can move
+  if (noMove==false) //if Walter is not allowed to move
     w.walterKeyPressed();
 
-  hr.hrKeyPressed();
+  if (roomCounter==1) { //if the room counter is equal to 1
+    hr.diaryKeyPressed();
+    hr.doorKeyPressed();
+  }
 }
 
 void keyReleased() {

@@ -19,8 +19,8 @@ class Walter {
   PImage walterB; //sprite sheet of black & white Walter walking upwards
   PImage[] spritesB = new PImage[4]; //array to run Walter's upwards walking animation
 
-  int originalW=64;
-  int originalH=140;
+  int originalW=64; //original width of Walter
+  int originalH=140; //original height of Walter
   int walterW; //Walter's width size
   int walterH; //Walter's height size
   int walterX, walterY; //x and y coordinates of Walter
@@ -145,7 +145,7 @@ class Walter {
   }
 
   void walterKeyPressed() { //moves Walter with wasd keys
-    startGame=true;
+    startGame=true; //the game has started
     if (key=='w') { //if 'w' is being pressed
       wPressed=true; //'w' is being pressed
       idle=false; //Walter is not idle
@@ -181,30 +181,38 @@ class Walter {
     }
     if (key!='e') //if any key other than 'e' is pressed
       sit=false; //Walter is not sitting
+
+    if (key!='w' && key!='a' && key!='s' && key!='d') { //if none of the wasd keys are pressed
+      wPressed=false; //'w' is not pressed
+      aPressed=false; //'a' is not pressed
+      sPressed=false; //'s' is not pressed
+      dPressed=false; //'d' is not pressed
+      idle=true; //Walter is idle
+    }
   }
 
   void walterKeyReleased() { //allows Walter to move diagonally
     if (key=='w') { //if 'w' is released
       wPressed=false; //'w' is not being pressed
-      if (keyPressed==false) {
+      if (keyPressed==false) { //if a key is not pressed
         idle=true; //Walter is idle
       }
     }
     if (key=='a') { //if 'a' is released
       aPressed=false; //'a' is not being pressed
-      if (keyPressed==false) {
+      if (keyPressed==false) { //if a key is not pressed
         idle=true; //Walter is idle
       }
     }
     if (key=='s') { //if 's' is released
       sPressed=false; //'s' is not being pressed
-      if (keyPressed==false) {
+      if (keyPressed==false) { //if a key is not pressed
         idle=true; //Walter is idle
       }
     }
     if (key=='d') { //if 'd' is released
       dPressed=false; //'d' is not being pressed
-      if (keyPressed==false) {
+      if (keyPressed==false) { //if a key is not pressed
         idle=true; //Walter is idle
       }
     }

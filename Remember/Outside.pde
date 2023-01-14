@@ -32,6 +32,7 @@ class Outside {
 
   void leave() { //allows Walter to leave the outside
     if (w.walterY<0) { //if Walter is above the top boundary of the screen
+    changeOutside=true;
       noMove=true; //Walter cannot move
       increaseTransparency=true; //a transition begins
       blackTransition=true; //the black transition begins
