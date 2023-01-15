@@ -123,8 +123,15 @@ class Walter {
     else if (sPressed&&idle==false) //if Walter is moving down and is not idle
       image(spritesF[indexW], walterX, walterY, walterW, walterH); //displays Walter's walking animation moving right
 
-    if (wPressed || aPressed || sPressed || dPressed || (wasdKey>=1 && wasdKey<=4))
+    if (wPressed || aPressed || sPressed || dPressed) {
+      if(k.kitchenCounter==1)
+      aCounter+=aSpeedW/2;
+      else
       aCounter+=aSpeedW; //sets the speed for Walter's downward walking animation
+    }
+      
+      if(wasdKey>=1 && wasdKey<=4)
+      aCounter+=aSpeedI;
   }
 
   void walterMove() { //allows Walter to move

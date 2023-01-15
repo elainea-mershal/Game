@@ -19,6 +19,7 @@ class Kitchen {
     if(w.walterY>walterPos1Y) {
     w.wPressed=true;
     w.idle=false;
+    w.walterY-=w.wSpeed/2; //Walter moves upwards
     }
     else {
       w.wPressed=false;

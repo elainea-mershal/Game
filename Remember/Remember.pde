@@ -111,13 +111,14 @@ void draw() {
       k.scene1();
     w.displayWalter();
   }
-  w.walterMove();
+  if (k.kitchenCounter!=1 && noMove==false)
+    w.walterMove();
   roomTransition();
 }
 
 void roomTransition() { //allows transparency transitions between rooms
   if (increaseTransparency) { //if the transparency is to be increased
-  noMove=true;
+    noMove=true;
     tint(255, transparency); //tints the room with transparency
 
     if (whiteTransition) { //if the transition is white
