@@ -17,6 +17,7 @@ class LivingRoom {
   int hallBoundaryR; //right hall boundary
   int hallBoundaryU; //up hall boundary
   int hallBoundaryD; //down hall Boundary
+  int hallBoundary;
 
   int fireBoundaryL; //left fireplace boundary
   int fireBoundaryR; //right fireplace boundary
@@ -92,6 +93,7 @@ class LivingRoom {
     hallBoundaryR=width*1670/1920;
     hallBoundaryU=height*494/1080;
     hallBoundaryD=height*595/1080;
+    hallBoundary=height*336/1080;
 
     fireBoundaryL=width*1165/1920;
     fireBoundaryR=width*1325/1920;
@@ -304,7 +306,7 @@ class LivingRoom {
   }
 
   void leave() { //allows Walter to leave the living room
-    if (w.walterY>boundaryD || w.walterY<boundaryU) { //if Walter is below the bottom boundary or above the top boundary of the living room
+    if (w.walterY>boundaryD || w.walterY<boundaryU || (w.walterX>hallBoundaryL && w.walterX<hallBoundaryR && w.walterY<hallBoundary)) { //if Walter is below the bottom boundary or above the top boundary of the living room
       noMove=true; //Walter cannot move
       increaseTransparency=true; //a transition begins
       blackTransition=true; //the black transition begins
@@ -314,10 +316,18 @@ class LivingRoom {
       
       if(w.walterY<boundaryU)
       changeKitchen=true;
+      
+     if( w.walterX>hallBoundaryL && w.walterX<hallBoundaryR && w.walterY<hallBoundary)
+     changeHall=true;
     }
 
   void come() { //allows Walter to return to the living room
   if(changeOutside)
     w.walterY = height/3*2; //Walter is just above the outside door
+    
+    if(changeHall) {
+    w.walterX=width*1650/1920;
+    w.walterY=height*340/1080;
+    }
   }
 }

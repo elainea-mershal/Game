@@ -10,6 +10,7 @@ HospitalRoom hr; //constructs 1 object from the class HospitalRoom with hr param
 LivingRoom lr; //constructs 1 object from the LivingRoom class with lr parameters
 Outside o; //constructs 1 object from the Outside class with o parameters
 Kitchen k; //constructs 1 object from the Kitchen class with k parameters
+Hall h;
 
 PImage titleScreen; //image of the title screen
 
@@ -37,6 +38,8 @@ boolean displayOutside;
 boolean changeOutside;
 boolean displayKitchen;
 boolean changeKitchen;
+boolean changeHall;
+boolean displayHall;
 boolean changeLR;
 
 int soundCounter;
@@ -47,7 +50,7 @@ float amplitudeChange=0.001;
 void setup() {
   fullScreen(); //sets the run window to fullscreen
   brownNoise=new SoundFile(this, "brownNoise.wav");
-  pleasantMemory=new SoundFile(this,"pleasantMemory.wav");
+  pleasantMemory=new SoundFile(this, "pleasantMemory.wav");
   diaryText=new Gif(this, "diaryText.gif");
   titleScreen=loadImage("titleScreen.png");
   whiteScreen=loadImage("whiteScreen.png");
@@ -58,16 +61,17 @@ void setup() {
   lr=new LivingRoom(); //initializes the class LivingRoom
   o=new Outside(); //initializes the class Outside
   k=new Kitchen(); //initializes the class Kitchen
+  h=new Hall();
 }
 
 void draw() {
-  println(soundCounter);
+  println();
   sound();
-  
+
   if (roomCounter==0) //if the room counter has not increased
     image(titleScreen, 0, 0, width, height); //display the title screen
 
-  if (displayOutside==false && displayKitchen==false) {
+  if (displayOutside==false && displayKitchen==false && displayHall==false) {
     if (roomCounter==1) { //if the room counter is equal to 0
       hr.display();
       hr.boundaries();
@@ -112,6 +116,13 @@ void draw() {
     w.displayWalter();
   }
 
+  if (displayHall) {
+    h.display();
+    h.boundaries();
+    w.displayWalter();
+    h.leave();
+  }
+
   if (displayKitchen) {
     k.display();
     if (k.kitchenCounter==1)
@@ -152,6 +163,7 @@ void roomTransition() { //allows transparency transitions between rooms
         lr.come();
         displayOutside=false;
         displayKitchen=false;
+        displayHall=false;
         changeLR=false;
       }
       if (changeKitchen) {
@@ -160,9 +172,14 @@ void roomTransition() { //allows transparency transitions between rooms
         k.come();
         changeKitchen=false;
       }
+      if (changeHall) {
+        displayHall=true;
+        changeHall=true;
+        h.come();
+        changeHall=false;
+      }
     }
   }
-
   if (decreaseTransparency) { //if the transparency is to be decreased
     increaseTransparency=false; //the transparency stops increasing
     tint(255, transparency); //tints the room with transparency
@@ -188,27 +205,26 @@ void roomTransition() { //allows transparency transitions between rooms
   }
 }
 
-  void sound () { //plays brown noise in the hospital room
-   brownNoise.amp(0.2); //lowers the volume of the hospital room noise to a quarter of its volume
-    pleasantMemory.amp(0.1);
-   
-   if(roomCounter==1 && soundCounter<2)
-   soundCounter++;
-   if(roomCounter==2 && soundCounter<4)
-   soundCounter++;
-   
-    if(soundCounter==1) {
-      brownNoise.play(); //plays the noise for the hospital room
-        brownNoise.loop(); //when the hospital room noise ends, it starts playing again
-      soundCounter++;
-    }
-    else if(soundCounter==3) {
-      brownNoise.stop();
-      pleasantMemory.play();
-      pleasantMemory.loop();
-      soundCounter++;
-    } 
+void sound () { //plays brown noise in the hospital room
+  brownNoise.amp(0.2); //lowers the volume of the hospital room noise to a quarter of its volume
+  pleasantMemory.amp(0.1);
+
+  if (roomCounter==1 && soundCounter<2)
+    soundCounter++;
+  if (roomCounter==2 && soundCounter<4)
+    soundCounter++;
+
+  if (soundCounter==1) {
+    brownNoise.play(); //plays the noise for the hospital room
+    brownNoise.loop(); //when the hospital room noise ends, it starts playing again
+    soundCounter++;
+  } else if (soundCounter==3) {
+    brownNoise.stop();
+    pleasantMemory.play();
+    pleasantMemory.loop();
+    soundCounter++;
   }
+}
 
 void keyPressed() {
   if (roomCounter==0 && key==ENTER) { //if the room counter is at 0 and 'ENTER' is pressed
