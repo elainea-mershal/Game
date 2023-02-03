@@ -74,28 +74,28 @@ class Kitchen {
   void counterBoundaries() { //sets movement boundaries around the counter
     if (w.walterY>counterY[1] && w.walterY<counterY[1]+hr.increaseBoundariesY[0] && w.walterX>counterX[1] && w.walterX<counterX[0]) //if Walter is at the lower counter boundary
       w.walterY+=w.wSpeedY; //Walter cannot move up
-    else if (w.walterY<counterY[0] && w.walterY>counterY[0]-hr.increaseBoundariesY[0] && w.walterX>counterX[1] && w.walterX<counterX[0]) //if Walter is at the upper counter boundary
+    if (w.walterY<counterY[0] && w.walterY>counterY[0]-hr.increaseBoundariesY[0] && w.walterX>counterX[1] && w.walterX<counterX[0]) //if Walter is at the upper counter boundary
       w.walterY-=w.wSpeedY; //Walter cannot move down
-    else if (w.walterX>counterX[1]-hr.increaseBoundariesX[0] && w.walterX<counterX[1] && w.walterY<counterY[1] && w.walterY>counterY[0]) //if Walter is at the left counter boundary
+    if (w.walterX>counterX[1]-hr.increaseBoundariesX[0] && w.walterX<counterX[1] && w.walterY<counterY[1] && w.walterY>counterY[0]) //if Walter is at the left counter boundary
       w.walterX-=w.wSpeedX; //Walter cannot move to the right
-    else if (w.walterX<counterX[0]+hr.increaseBoundariesX[0] && w.walterX>counterX[0] && w.walterY<counterY[1] && w.walterY>counterY[0]) //if Walter is at the right counter boundary
+    if (w.walterX<counterX[0]+hr.increaseBoundariesX[0] && w.walterX>counterX[0] && w.walterY<counterY[1] && w.walterY>counterY[0]) //if Walter is at the right counter boundary
       w.walterX+=w.wSpeedX; //Walter cannot move to the left
-    else if (w.walterX>counterX[3]-hr.increaseBoundariesX[0] && w.walterX<counterX[3] && w.walterY<counterY[3] && w.walterY>counterY[2]) //if Walter is at the left counter boudary
+    if (w.walterX>counterX[3]-hr.increaseBoundariesX[0] && w.walterX<counterX[3] && w.walterY<counterY[3] && w.walterY>counterY[2]) //if Walter is at the left counter boudary
       w.walterX-=w.wSpeedX; //Walter cannot move to the right
-    else if (w.walterX<counterX[2]+hr.increaseBoundariesX[0] && w.walterX>counterX[2] && w.walterY<counterY[3] && w.walterY>counterY[2]) //if Walter is at the right counter boundary
+    if (w.walterX<counterX[2]+hr.increaseBoundariesX[0] && w.walterX>counterX[2] && w.walterY<counterY[3] && w.walterY>counterY[2]) //if Walter is at the right counter boundary
       w.walterX+=w.wSpeedX; //Walter cannot move to the left
-    else if (w.walterY<counterY[2] && w.walterY>counterY[2]-hr.increaseBoundariesY[0] && w.walterX>counterX[3] && w.walterX<counterX[2]) //if Walter is at the upper counter boundary
+    if (w.walterY<counterY[2] && w.walterY>counterY[2]-hr.increaseBoundariesY[0] && w.walterX>counterX[3] && w.walterX<counterX[2]) //if Walter is at the upper counter boundary
       w.walterY-=w.wSpeedY; //Walter cannot move down
   }
 
   void cupboardBoundaries() { //sets movement boundaries around the cupboard
     if (w.walterY<cupboardY[0] && w.walterX>0 && w.walterX<cupboardX[0]) //if Walter is at the lower cupboard boundary
       w.walterY+=w.wSpeedY; //Walter cannot move up
-    else if (w.walterX<cupboardX[0]+hr.increaseBoundariesX[0] && w.walterX>cupboardX[0] && w.walterY<cupboardY[0]) //if Walter is at the right cupboard boundary
+    if (w.walterX<cupboardX[0]+hr.increaseBoundariesX[0] && w.walterX>cupboardX[0] && w.walterY<cupboardY[0]) //if Walter is at the right cupboard boundary
       w.walterX+=w.wSpeedX; //Walter cannot move to the left
-    else if (w.walterX<cupboardX[1]+hr.increaseBoundariesX[0] && w.walterX>cupboardX[1] && w.walterY<cupboardY[1]) //if Walter is at the right cupboard boundary
+    if (w.walterX<cupboardX[1]+hr.increaseBoundariesX[0] && w.walterX>cupboardX[1] && w.walterY<cupboardY[1]) //if Walter is at the right cupboard boundary
       w.walterX+=w.wSpeedX; //Walter cannot move to the left
-    else if (w.walterY<cupboardY[1] && w.walterY>cupboardY[1]-hr.increaseBoundariesY[0] && w.walterX>0 && w.walterX<cupboardX[1]) //if Walter is at the lower cupboard boundary
+    if (w.walterY<cupboardY[1] && w.walterY>cupboardY[1]-hr.increaseBoundariesY[0] && w.walterX>0 && w.walterX<cupboardX[1]) //if Walter is at the lower cupboard boundary
       w.walterY+=w.wSpeedY; //Walter cannot move up
   }
 
