@@ -257,10 +257,11 @@ void roomTransition() { //allows transparency transitions between rooms
       w.sPressed=false; //Walter is not moving downwards
       w.dPressed=false; //Walter is not moving to the right
       w.idle=true; //Walter is not moving
+      if(roomCounter==3 || roomCounter==7) //if Walter is in the hospital room for the second or fourth time
+      noMove=true; //Walter cannot move
       if (roomCounter==3) { //if the hospital room is displayed for the second time
         displayKitchen=false; //the kitchen is no longer displayed
         w.sit=false; //Walter is no longer sitting
-        noMove=true; //Walter cannot move
         k.kitchenCounter++; //the first scene is no longer displayed
       } else if (roomCounter==5) { //if the hospital room is displayed for the third time
         n.nurseProgress=0; //resets the nurse cutscene progress
